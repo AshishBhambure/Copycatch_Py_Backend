@@ -6,6 +6,11 @@ from app.hashFunction import make_hash_funcs
 from app.db import similarity_report_col
 app = FastAPI()
 
+@app.head("/")
+def sayHello():
+    return {"message": "Py Backedn Up and Running !!"}
+
+
 @app.get("/")
 def read_root():
 
