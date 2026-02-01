@@ -46,3 +46,24 @@ def get_document(doc_id: str):
     if not doc:
         raise HTTPException(status_code=404, detail="Document not found")
     return {"id": str(doc["_id"]), "raw_text": doc["raw_text"], "processed_text": doc["processed_text"]}
+
+
+
+
+@app.get("/get_similarity_report/{submission_id}")
+def get_similarity_report(submission_id: str):
+    """
+    Fetch a similarity report by submission_id
+    """
+    print(f"Fetching report for submission_id: {submission_id}")
+
+    report = similarity_report_col.find_one({"submission_id": submission_id})
+
+    if not report:
+        raise HTTPException(status_code=404, detail="No similarity report found")
+
+    # Convert ObjectId to string for JSON serialization
+    if "_id" in report:
+        report["_id"] = str(report["_id"])
+
+    return report
