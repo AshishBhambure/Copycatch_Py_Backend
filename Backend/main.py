@@ -3,7 +3,7 @@ from app.preProcessing import save_to_db, extract_and_preprocess
 from app.db import documents_col
 from app.Model.preProcessingModel import UploadRequest
 from app.hashFunction import make_hash_funcs
-
+from app.db import similarity_report_col
 app = FastAPI()
 
 @app.get("/")
