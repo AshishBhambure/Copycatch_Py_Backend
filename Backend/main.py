@@ -63,9 +63,16 @@ def get_similarity_report(submission_id: str):
     print(f"Fetching report for submission_id: {submission_id}")
 
     report = similarity_report_col.find_one({"submission_id": submission_id})
+    empty_response = {
+        "_id": "",  # keep field present
+        "assignment_id": "",  # dummy allowed
+        "submission_id": submission_id,  # keep requested id
+        "plagarized_with": []  # important change
+    }
 
     if not report:
-        raise HTTPException(status_code=404, detail="No similarity report found")
+            return empty_response
+
 
     # Convert ObjectId to string for JSON serialization
     if "_id" in report:
