@@ -59,7 +59,7 @@ def preprocess_text(text):
     print("Lemmatized text:", " ".join(lemmatized_words))
     return " ".join(lemmatized_words)
 
-def extract_and_preprocess(url,assignment_id,submission_id):
+def extract_and_preprocess(url,assignment_id,submission_id,minMatchLength = 2):
     print("Starting Extraction And PreProcess ")
     start=start = time.perf_counter()
     path = download_file(url)
@@ -81,7 +81,7 @@ def extract_and_preprocess(url,assignment_id,submission_id):
     print(f"Time taken to preprocess text: {end - start:.2f} seconds")
     print("preprocessed extracted text", processed_text)
     start=time.perf_counter()
-    shingles=get_shingles(processed_text)
+    shingles=get_shingles(processed_text,minMatchLength)
     # print("Shingles",shingles)
     shinglesToIds = get_shingle_id(shingles)
     # for shingle in shingles:
@@ -101,14 +101,14 @@ def extract_and_preprocess(url,assignment_id,submission_id):
 
     return {"raw_text": raw_text, "processed_text": processed_text, "minhash_signature": minhash_sign}
 
-def save_to_db(file_url, submission_id ,assignment_id):
+def save_to_db(file_url, submission_id ,assignment_id ,minMatchLength = 2):
     """Extract, preprocess, and insert into MongoDB"""
     print(" Document Collection Loading INitiated")
     if documents_col is None:
         raise Exception("Database connection not available!")
     print("Document Collection Intiation completed")
 
-    data = extract_and_preprocess(file_url,assignment_id,submission_id)
+    data = extract_and_preprocess(file_url,assignment_id,submission_id,minMatchLength)
     data["submission_id"] = submission_id
     data["file_url"] = file_url
     inserted = documents_col.insert_one(data)

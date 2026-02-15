@@ -29,8 +29,9 @@ def upload_file(request: UploadRequest):
         file_url = request.file_url
         submission_id = request.submission_id
         assignment_id = request.assignment_id
+        minMatcgLength = request.minMatchLength
         print(" File Arrived : ",  file_url, submission_id,assignment_id)
-        inserted_id = save_to_db(file_url, submission_id,assignment_id)
+        inserted_id = save_to_db(file_url, submission_id,assignment_id,minMatcgLength)
 
         print(" File Saved ")
 
