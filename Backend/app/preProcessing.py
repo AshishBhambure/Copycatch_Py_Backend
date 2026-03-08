@@ -116,7 +116,7 @@ def save_to_db(file_url, submission_id ,assignment_id ,minMatchLength = 2):
     start=time.perf_counter()
 
     candidatePairs=set()
-    bands=100
+    bands=200 ## Changed Bands Number
     rows=200//bands
     lsh_buckets(data["minhash_signature"],bands,rows,assignment_id,submission_id,candidatePairs)
     print("Candidate Pairs:",candidatePairs)
