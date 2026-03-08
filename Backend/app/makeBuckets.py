@@ -1,4 +1,9 @@
+import hashlib
 from app.db import buckets_col
+
+def stable_hash(band_tuple):
+    s = ",".join(map(str, band_tuple))
+    return hashlib.md5(s.encode()).hexdigest()
 
 def lsh_buckets(sig, bands, rows, assignment_id, submission_id, candidate_pairs):
     """
@@ -30,7 +35,7 @@ def lsh_buckets(sig, bands, rows, assignment_id, submission_id, candidate_pairs)
         start = b * rows
         end = start + rows
         band_tuple = tuple(sig[start:end])  # freeze band for hashing
-        h = hash(band_tuple)
+        h = stable_hash(band_tuple)
 
         # Find if this hash already exists in any bucket
         bucket_found = None
